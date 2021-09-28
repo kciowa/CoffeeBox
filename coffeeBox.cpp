@@ -7,7 +7,7 @@ int const PASS = 1234;
 void userMenu();
 void adminMenu();
 bool authorization();
-
+// HELLO
 
 int main()
 {
