@@ -1,2 +1,4 @@
 C:\Users\ASUS\Desktop\DEV\база\coffeBox\coffeBox\Debug\coffeBox.exe
 C:\Users\ASUS\Desktop\DEV\база\coffeBox\coffeBox\Debug\coffeBox.pdb
+C:\Users\ASUS\Desktop\DEV\база\coffeBox\Debug\coffeBox.exe
+C:\Users\ASUS\Desktop\DEV\база\coffeBox\Debug\coffeBox.pdb
