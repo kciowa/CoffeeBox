@@ -1,7 +1,7 @@
 ﻿#include <iostream>
 
 using namespace std;
-//34435
+
 int const PASS = 1234;
 
 void userMenu();
