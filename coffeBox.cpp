@@ -2,6 +2,8 @@
 #include <conio.h>
 #include <windows.h>
 
+// func to check the number of digits in the password.
+
 using namespace std;
 
 int const PASS = 1234;
@@ -20,7 +22,7 @@ void getProceeds();
 void showCups();
 void addCups();
 void coinMenu();
-double addCoin(double balance);
+double addCoin(double x); // rename the parameter 
 void orderEspresso();
 void orderCappuccino();
 void orderAmericano();
@@ -52,8 +54,9 @@ bool authorization()
 			cout << "Error! CoffeeBox is blocked.";
 			return false;
 		}
-
-		counter++;	
+		// better to change the authorization function, for example:
+		counter++;	// !! while (password != PASS) 
+		// cout << "enter the pass"; cin >> password; counter++; if (counter == 3) break or what X3 
 	}
 }
 
@@ -77,7 +80,7 @@ void userMenu()
 	switch (num)
 	{
 	case 1:
-		if (cups == 0)
+		if (cups == 0) // make the function for this repeating code
 		{
 			cout << "Sorry, the cups are out." << endl;
 			userMenu();
@@ -106,7 +109,7 @@ void userMenu()
 		{
 			cout << endl;
 		}
-		orderEspresso();
+		orderEspresso(); // three methods for only one operation (make a coffee)
 		break;
 	case 3:
 		if (cups == 0)
@@ -122,7 +125,7 @@ void userMenu()
 		{
 			cout << endl;
 		}
-		orderCappuccino();
+		orderCappuccino(); // same
 		break;
 	case 4:
 		if (cups == 0)
@@ -138,10 +141,13 @@ void userMenu()
 		{
 			cout << endl;
 		}
-		orderAmericano();
+		orderAmericano(); // same
 		break;
 	case 5:
-		if (authorization()) adminMenu();	
+		if (authorization())
+		{ // better to add the braces (already added)
+			adminMenu();
+		}
 		break;
 	default:
 		cout << "Error! Wrong number.";
@@ -207,16 +213,18 @@ void showCups()
 void addCups() 
 {
 	system("cls");
-
+	// rewrite the loop. for example:
+	// while ((cups + cup) >= 700)
+	// then your code below:
 	int cup = 0;
 
 	cout << "How many cups have been added ? ";
 	cin >> cup;
 
-	if ((cups + cup) >= 700) {
+	if ((cups + cup) >= 700) { // from me: why you use ">="? If ((cups + cup) == 700) it's OK, isn't it?
 		cout << "Too many cups, add less!";
 		_getch();
-		addCups();
+		addCups(); // without this recursion
 	}
 	
 	cups += cup;
@@ -242,10 +250,10 @@ void getProceeds()
 
 void loading(int index) 
 {
-	for (int i = 0; i<index; i++) {
+	for (int i = 0; i < index; i++) { // i've added spaces in "i<index"
 
 		cout << "\b\b\b\b\b\b\b\b\b\bLoading" << flush;
-		Sleep(100);
+		Sleep(100); // check please, is it secs or millisecs?
 		cout << "\b\b\b\b\b\b\b\b\b\bLOading" << flush;
 		Sleep(100);
 		cout << "\b\b\b\b\b\b\b\b\b\bLoAding" << flush;
@@ -284,7 +292,7 @@ void coinMenu()
 	{
 	case 1:
 		addCoin(0.10);
-		userMenu();
+		userMenu(); // move userMenu after switch
 		break;
 	case 2:
 		addCoin(0.20);
@@ -306,9 +314,10 @@ void coinMenu()
 		cout << "Error! Wrong number.";
 		break;
 	}
+	// userMenu - here
 }
 
-double addCoin(double x)
+double addCoin(double x) // rename the parameter
 {
 	balance += x;
 	return balance;
@@ -325,6 +334,7 @@ void orderEspresso()
 	}
 	else
 	{
+		// cout "not enough coins" or smth.
 		userMenu();
 	}
 }
@@ -340,6 +350,7 @@ void orderCappuccino()
 	}
 	else
 	{
+		// same
 		userMenu();
 	}
 }
@@ -355,6 +366,7 @@ void orderAmericano()
 	}
 	else
 	{
+		// same
 		userMenu();
 	}
 }
