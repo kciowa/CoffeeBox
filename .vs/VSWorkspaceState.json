@@ -2,6 +2,10 @@
   "ExpandedNodes": [
     ""
   ],
+<<<<<<< HEAD
   "SelectedNode": "\\coffeeBox.cpp",
+=======
+  "SelectedNode": "\\coffeBox.cpp",
+>>>>>>> 1c75bf351d7e0f8ddbccfb9f73cfdbd1ac4f3fd2
   "PreviewInSolutionExplorer": false
 }
