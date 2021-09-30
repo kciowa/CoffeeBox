@@ -5,7 +5,7 @@
 using namespace std;
 
 string const PASS = "7998";
-int cups = 3;
+int cups = 7;
 double balance = 0.0;
 double const ESPRESSO = 1.80;
 double const CAPPUCCINO = 2.30;
