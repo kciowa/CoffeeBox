@@ -2,12 +2,10 @@
 #include <conio.h>
 #include <windows.h>
 
-// func to check the number of digits in the password.
-
 using namespace std;
 
-int const PASS = 1234;
-int cups = 7;
+string const PASS = "7998";
+int cups = 3;
 double balance = 0.0;
 double const ESPRESSO = 1.80;
 double const CAPPUCCINO = 2.30;
@@ -20,9 +18,12 @@ void showBalance();
 void loading(int index);
 void getProceeds();
 void showCups();
+void cupsChecker();
+void printReady();
+void printNotEnough();
 void addCups();
 void coinMenu();
-double addCoin(double x); // rename the parameter 
+double addCoin(double coin);
 void orderEspresso();
 void orderCappuccino();
 void orderAmericano();
@@ -34,29 +35,46 @@ int main()
 }
 
 bool authorization()
-{
-	system("cls");
-
-	int password = 0;
+{	
 	int counter = 0;
+	int ch = 0;
+	string pass = "";
 
-	while (true)
+	while (pass != PASS)
 	{
-		cout << "Please, enter the password: ";
-		cin >> password;
-
-		if (password == PASS)
-		{
-			return true;
-		}
+		system("cls");
+		cout << "Please, enter the password: ";	
 		
+		while (true)                
+		{			
+			ch = _getch();        
+			if (ch == 13)         
+			{
+				break;         
+			}		
+			if (ch == 8)     
+			{
+				cout << (char)8 << ' ' << char(8);				
+
+				if (!pass.empty()) {
+					pass.erase(pass.length() - 1);
+				}					
+				
+			}
+			else
+			{
+				cout << '*';            
+				pass += (char)ch;       
+			}
+			
+		}
+
 		if (counter == 2) {
-			cout << "Error! CoffeeBox is blocked.";
+			cout << endl << "Error! CoffeeBox is blocked";
 			return false;
 		}
-		// better to change the authorization function, for example:
-		counter++;	// !! while (password != PASS) 
-		// cout << "enter the pass"; cin >> password; counter++; if (counter == 3) break or what X3 
+		
+		counter++;	
 	}
 }
 
@@ -80,77 +98,29 @@ void userMenu()
 	switch (num)
 	{
 	case 1:
-		if (cups == 0) // make the function for this repeating code
-		{
-			cout << "Sorry, the cups are out." << endl;
-			userMenu();
-		}
-		else if (cups < 5)
-		{
-			cout << "Attention: less than 5 cups left." << endl;
-		}
-		else
-		{
-			cout << endl;
-		}
+		cupsChecker();
 		coinMenu();
 		break;
 	case 2:
-		if (cups == 0)
-		{
-			cout << "Sorry, the cups are out." << endl;
-			userMenu();
-		}
-		else if (cups < 5)
-		{
-			cout << "Attention: less than 5 cups left." << endl;
-		}
-		else
-		{
-			cout << endl;
-		}
-		orderEspresso(); // three methods for only one operation (make a coffee)
+		cupsChecker();
+		orderEspresso();
 		break;
 	case 3:
-		if (cups == 0)
-		{
-			cout << "Sorry, the cups are out." << endl;
-			userMenu();
-		}
-		else if (cups < 5)
-		{
-			cout << "Attention: less than 5 cups left." << endl;
-		}
-		else
-		{
-			cout << endl;
-		}
-		orderCappuccino(); // same
+		cupsChecker();
+		orderCappuccino();
 		break;
 	case 4:
-		if (cups == 0)
-		{
-			cout << "Sorry, the cups are out." << endl;
-			userMenu();
-		}
-		else if (cups < 5)
-		{
-			cout << "Attention: less than 5 cups left." << endl;
-		}
-		else
-		{
-			cout << endl;
-		}
-		orderAmericano(); // same
+		cupsChecker();
+		orderAmericano();
 		break;
 	case 5:
 		if (authorization())
-		{ // better to add the braces (already added)
+		{
 			adminMenu();
 		}
 		break;
 	default:
-		cout << "Error! Wrong number.";
+		cout << "Error! Wrong number";
 		break;
 	}
 }
@@ -190,13 +160,13 @@ void adminMenu()
 			userMenu();
 			break;
 		default:
-			cout << "Error! Wrong number.";
+			cout << "Error! Wrong number";
 			break;
 		}
 	}
 }
 
-void showBalance() 
+void showBalance()
 {
 	system("cls");
 	cout << "Current balance: " << balance << " BYN" << endl;
@@ -206,34 +176,32 @@ void showBalance()
 void showCups()
 {
 	system("cls");
-	cout << cups << " - cups left" << endl;
+	cout << cups << " cups left" << endl;
 	_getch();
 }
 
-void addCups() 
+void addCups()
 {
 	system("cls");
-	// rewrite the loop. for example:
-	// while ((cups + cup) >= 700)
-	// then your code below:
+
 	int cup = 0;
 
-	cout << "How many cups have been added ? ";
+	cout << "How many cups have been added? ";
 	cin >> cup;
 
-	if ((cups + cup) >= 700) { // from me: why you use ">="? If ((cups + cup) == 700) it's OK, isn't it?
+	if ((cups + cup) <= 700) {	
+		cups += cup;
+
+		cout << "Now there are " << cups << " cups in CoffeeBox";
+		_getch();
+	}
+	else {
 		cout << "Too many cups, add less!";
 		_getch();
-		addCups(); // without this recursion
 	}
-	
-	cups += cup;
-
-	cout << "Now there are " << cups << " cups in the vending machine";
-	_getch();
 }
 
-void getProceeds() 
+void getProceeds()
 {
 	system("cls");
 
@@ -248,35 +216,57 @@ void getProceeds()
 	_getch();
 }
 
-void loading(int index) 
+void loading(int index)
 {
-	for (int i = 0; i < index; i++) { // i've added spaces in "i<index"
+	for (int i = 0; i < index; i++) {
 
-		cout << "\b\b\b\b\b\b\b\b\b\bLoading" << flush;
-		Sleep(100); // check please, is it secs or millisecs?
-		cout << "\b\b\b\b\b\b\b\b\b\bLOading" << flush;
+		cout << "\b\b\b\b\b\b\b\b\b\bWaiting" << flush;
+		Sleep(100); 
+		cout << "\b\b\b\b\b\b\b\b\b\bWAiting" << flush;
 		Sleep(100);
-		cout << "\b\b\b\b\b\b\b\b\b\bLoAding" << flush;
+		cout << "\b\b\b\b\b\b\b\b\b\bWaIting" << flush;
 		Sleep(100);
-		cout << "\b\b\b\b\b\b\b\b\b\bLoaDing" << flush;
+		cout << "\b\b\b\b\b\b\b\b\b\bWaiTing" << flush;
 		Sleep(100);
-		cout << "\b\b\b\b\b\b\b\b\b\bLoadIng" << flush;
+		cout << "\b\b\b\b\b\b\b\b\b\bWaitIng" << flush;
 		Sleep(100);
-		cout << "\b\b\b\b\b\b\b\b\b\bLoadiNg" << flush;
+		cout << "\b\b\b\b\b\b\b\b\b\bWaitiNg" << flush;
 		Sleep(100);
-		cout << "\b\b\b\b\b\b\b\b\b\bLoadinG" << flush;
+		cout << "\b\b\b\b\b\b\b\b\b\bWaitinG" << flush;
 		Sleep(100);
-		cout << "\b\b\b\b\b\b\b\b\b\bLoading." << flush;
+		cout << "\b\b\b\b\b\b\b\b\b\bWaiting." << flush;
 		Sleep(100);
-		cout << "\b\b\b\b\b\b\b\b\b\bLoading.." << flush;
+		cout << "\b\b\b\b\b\b\b\b\b\bWaiting.." << flush;
 		Sleep(100);
-		cout << "\b\b\b\b\b\b\b\b\b\bLoading..." << flush;
+		cout << "\b\b\b\b\b\b\b\b\b\bWaiting..." << flush;
 		Sleep(100);
+	}
+}
+
+void cupsChecker()
+{
+	if (cups == 0)
+	{
+		system("cls");
+		cout << "Sorry, the cups are out.";
+		Sleep(1000);
+		userMenu();
+	}
+	else if (cups < 5)
+	{
+		system("cls");
+		cout << "Attention: less than 5 cups left." << endl;
+		Sleep(1000);
+	}
+	else
+	{
+		cout << endl;
 	}
 }
 
 void coinMenu()
 {
+	system("cls");
 	int num = 0;
 
 	cout << "1 - 0.10 BYN" << endl;
@@ -292,49 +282,62 @@ void coinMenu()
 	{
 	case 1:
 		addCoin(0.10);
-		userMenu(); // move userMenu after switch
 		break;
 	case 2:
 		addCoin(0.20);
-		userMenu();
 		break;
 	case 3:
 		addCoin(0.50);
-		userMenu();
 		break;
 	case 4:
 		addCoin(1);
-		userMenu();
 		break;
 	case 5:
 		addCoin(2);
-		userMenu();
 		break;
 	default:
 		cout << "Error! Wrong number.";
 		break;
 	}
-	// userMenu - here
+	userMenu();
 }
 
-double addCoin(double x) // rename the parameter
+double addCoin(double coin)
 {
-	balance += x;
+	balance += coin;
 	return balance;
+}
+
+void printReady()
+{
+	system("cls");
+	loading(6);
+	system("cls");
+	cout << "Your coffee is ready!" << endl;
+	Sleep(2500);
+	cout << "Take your coffee";
+	Sleep(3500);
+}
+
+void printNotEnough()
+{
+	system("cls");
+	cout << "Not enough money";
+	Sleep(600);
 }
 
 void orderEspresso()
 {
 	if (balance >= ESPRESSO)
 	{
-		cout << "Coffee is ready!" << endl;
+		printReady();
 		balance -= ESPRESSO;
 		cups--;
 		userMenu();
 	}
 	else
 	{
-		// cout "not enough coins" or smth.
+		printNotEnough();
 		userMenu();
 	}
 }
@@ -343,14 +346,14 @@ void orderCappuccino()
 {
 	if (balance >= CAPPUCCINO)
 	{
-		cout << "Coffee is ready!" << endl;
+		printReady();
 		balance -= CAPPUCCINO;
 		cups--;
 		userMenu();
 	}
 	else
 	{
-		// same
+		printNotEnough();
 		userMenu();
 	}
 }
@@ -359,14 +362,14 @@ void orderAmericano()
 {
 	if (balance >= AMERICANO)
 	{
-		cout << "Coffee is ready!" << endl;
+		printReady();
 		balance -= AMERICANO;
 		userMenu();
 		cups--;
 	}
 	else
 	{
-		// same
+		printNotEnough();
 		userMenu();
 	}
 }
