@@ -4,7 +4,7 @@
 
 using namespace std;
 
-int const PASS = 1234;
+string const PASS = "7998";
 int cups = 7;
 double cash = 0.0;
 double balance = 0.0;
@@ -25,6 +25,9 @@ double addCoin(double balance);
 void orderEspresso();
 void orderCappuccino();
 void orderAmericano();
+void cupsChecker();
+void printReady();
+void printNotEnough();
 
 int main()
 {
@@ -34,28 +37,46 @@ int main()
 
 bool authorization()
 {
-	system("cls");
-
-	int password = 0;
 	int counter = 0;
+	int ch = 0;
+	string pass = "";
 
-	while (true)
+	while (pass != PASS)
 	{
+		system("cls");
 		cout << "Please, enter the password: ";
-		cin >> password;
 
-		if (password == PASS)
+		while (true)
 		{
-			return true;
+			ch = _getch();
+			if (ch == 13)
+			{
+				break;
+			}
+			if (ch == 8)
+			{
+				cout << (char)8 << ' ' << char(8);
+
+				if (!pass.empty()) {
+					pass.erase(pass.length() - 1);
+				}
+
+			}
+			else
+			{
+				cout << '*';
+				pass += (char)ch;
+			}
+
 		}
-		
+
 		if (counter == 2) {
-			cout << "Error! CoffeeBox is blocked.";
-			Sleep(1000);
+			cout << endl << "Error! CoffeeBox is blocked";
+			Sleep(3000);
 			return false;
 		}
 
-		counter++;	
+		counter++;
 	}
 }
 
@@ -79,91 +100,28 @@ void userMenu()
 	switch (num)
 	{
 	case 1:
-		if (cups == 0)
-		{
-			system("cls");
-			cout << "Sorry, the cups are out." << endl;
-			Sleep(3000);
-			userMenu();
-		}
-		else if (cups < 5)
-		{
-			system("cls");
-			cout << "Attention: less than 5 cups left." << endl;
-			Sleep(1000);
-		}
-		else
-		{
-			cout << endl;
-		}
+		cupsChecker();
 		coinMenu();
 		break;
 	case 2:
-		if (cups == 0)
-		{
-			system("cls");
-			cout << "Sorry, the cups are out." << endl;
-			Sleep(3000);
-			userMenu();
-		}
-		else if (cups < 5)
-		{
-			system("cls");
-			cout << "Attention: less than 5 cups left." << endl;
-			Sleep(1000);
-		}
-		else
-		{
-			cout << endl;
-		}
+		cupsChecker();
 		orderEspresso();
 		break;
 	case 3:
-		if (cups == 0)
-		{
-			system("cls");
-			cout << "Sorry, the cups are out." << endl;
-			Sleep(3000);
-			userMenu();
-		}
-		else if (cups < 5)
-		{
-			system("cls");
-			cout << "Attention: less than 5 cups left." << endl;
-			Sleep(1000);
-		}
-		else
-		{
-			cout << endl;
-		}
+		cupsChecker();
 		orderCappuccino();
 		break;
 	case 4:
-		if (cups == 0)
-		{
-			system("cls");
-			cout << "Sorry, the cups are out." << endl;
-			Sleep(3000);
-			userMenu();
-		}
-		else if (cups < 5)
-		{
-			system("cls");
-			cout << "Attention: less than 5 cups left." << endl;
-			Sleep(1000);
-		}
-		else
-		{
-			cout << endl;
-		}
+		cupsChecker();
 		orderAmericano();
 		break;
 	case 5:
 		if (authorization()) adminMenu();	
 		break;
 	default:
+		system("cls");
 		cout << "Error! Wrong number.";
-		Sleep(800);
+		Sleep(1000);
 		userMenu();
 	}
 }
@@ -326,7 +284,9 @@ void coinMenu()
 		userMenu();
 		break;
 	default:
+		system("cls");
 		cout << "Error! Wrong number.";
+		Sleep(1000);
 		userMenu();
 	}
 }
@@ -342,17 +302,14 @@ void orderEspresso()
 {
 	if (balance >= ESPRESSO)
 	{
-		loading(7);
-		system("cls");
-		cout << "Coffee is ready!" << endl;
-		Sleep(3500);
-
+		printReady();
 		balance -= ESPRESSO;
 		cups--;
 		userMenu();
 	}
 	else
 	{
+		printNotEnough();
 		userMenu();
 	}
 }
@@ -361,17 +318,14 @@ void orderCappuccino()
 {
 	if (balance >= CAPPUCCINO)
 	{
-		loading(7);
-		system("cls");
-		cout << "Coffee is ready!" << endl;
-		Sleep(3500);
-
+		printReady();
 		balance -= CAPPUCCINO;
 		cups--;
 		userMenu();
 	}
 	else
 	{
+		printNotEnough();
 		userMenu();
 	}
 }
@@ -380,17 +334,54 @@ void orderAmericano()
 {
 	if (balance >= AMERICANO)
 	{
-		loading(7);
-		system("cls");
-		cout << "Coffee is ready!" << endl;
-		Sleep(3500);
-
+		printReady();
 		balance -= AMERICANO;
-		userMenu();
 		cups--;
+		userMenu();
 	}
 	else
 	{
+		printNotEnough();
 		userMenu();
 	}
+}
+
+void cupsChecker()
+{
+	if (cups == 0)
+	{
+		system("cls");
+		cout << "Sorry, the cups are out.";
+		Sleep(2500);
+		userMenu();
+	}
+	else if (cups < 5)
+	{
+		system("cls");
+		cout << "Attention: less than 5 cups left." << endl;
+		Sleep(1500);
+	}
+	else
+	{
+		cout << endl;
+	}
+}
+
+void printReady()
+{
+	system("cls");
+	loading(7);
+	system("cls");
+	cout << "Your coffee is ready!" << endl;
+	Sleep(2500);
+	system("cls");
+	cout << "Take your coffee";
+	Sleep(3500);
+}
+
+void printNotEnough()
+{
+	system("cls");
+	cout << "Not enough money";
+	Sleep(1300);
 }
