@@ -6,6 +6,7 @@ using namespace std;
 
 int const PASS = 1234;
 int cups = 7;
+double cash = 0.0;
 double balance = 0.0;
 double const ESPRESSO = 1.80;
 double const CAPPUCCINO = 2.30;
@@ -14,7 +15,7 @@ double const AMERICANO = 1.80;
 void userMenu();
 void adminMenu();
 bool authorization();
-void showBalance();
+void showCashBalance();
 void loading(int index);
 void getProceeds();
 void showCups();
@@ -50,6 +51,7 @@ bool authorization()
 		
 		if (counter == 2) {
 			cout << "Error! CoffeeBox is blocked.";
+			Sleep(1000);
 			return false;
 		}
 
@@ -79,12 +81,16 @@ void userMenu()
 	case 1:
 		if (cups == 0)
 		{
+			system("cls");
 			cout << "Sorry, the cups are out." << endl;
+			Sleep(3000);
 			userMenu();
 		}
 		else if (cups < 5)
 		{
+			system("cls");
 			cout << "Attention: less than 5 cups left." << endl;
+			Sleep(1000);
 		}
 		else
 		{
@@ -95,12 +101,16 @@ void userMenu()
 	case 2:
 		if (cups == 0)
 		{
+			system("cls");
 			cout << "Sorry, the cups are out." << endl;
+			Sleep(3000);
 			userMenu();
 		}
 		else if (cups < 5)
 		{
+			system("cls");
 			cout << "Attention: less than 5 cups left." << endl;
+			Sleep(1000);
 		}
 		else
 		{
@@ -111,12 +121,16 @@ void userMenu()
 	case 3:
 		if (cups == 0)
 		{
+			system("cls");
 			cout << "Sorry, the cups are out." << endl;
+			Sleep(3000);
 			userMenu();
 		}
 		else if (cups < 5)
 		{
+			system("cls");
 			cout << "Attention: less than 5 cups left." << endl;
+			Sleep(1000);
 		}
 		else
 		{
@@ -127,12 +141,16 @@ void userMenu()
 	case 4:
 		if (cups == 0)
 		{
+			system("cls");
 			cout << "Sorry, the cups are out." << endl;
+			Sleep(3000);
 			userMenu();
 		}
 		else if (cups < 5)
 		{
+			system("cls");
 			cout << "Attention: less than 5 cups left." << endl;
+			Sleep(1000);
 		}
 		else
 		{
@@ -145,7 +163,8 @@ void userMenu()
 		break;
 	default:
 		cout << "Error! Wrong number.";
-		break;
+		Sleep(800);
+		userMenu();
 	}
 }
 
@@ -169,7 +188,7 @@ void adminMenu()
 		switch (num)
 		{
 		case 1:
-			showBalance();
+			showCashBalance();
 			break;
 		case 2:
 			getProceeds();
@@ -185,22 +204,23 @@ void adminMenu()
 			break;
 		default:
 			cout << "Error! Wrong number.";
-			break;
+			Sleep(800);
+			adminMenu();
 		}
 	}
 }
 
-void showBalance() 
+void showCashBalance() 
 {
 	system("cls");
-	cout << "Current balance: " << balance << " BYN" << endl;
+	cout << "Current balance: " << cash << " BYN" << endl;
 	_getch();
 }
 
 void showCups()
 {
 	system("cls");
-	cout << cups << " - cups left" << endl;
+	cout << cups << " cups left" << endl;
 	_getch();
 }
 
@@ -210,7 +230,7 @@ void addCups()
 
 	int cup = 0;
 
-	cout << "How many cups have been added ? ";
+	cout << "How many cups have been added? ";
 	cin >> cup;
 
 	if ((cups + cup) >= 700) {
@@ -229,19 +249,21 @@ void getProceeds()
 {
 	system("cls");
 
-	showBalance();
-
 	cout << "Wait, the money is being loaded" << endl;
+	Sleep(1500);
 	loading(6);
+	system("cls");
 
+	cash = 0;
 	balance = 0;
 
-	cout << endl << "Upload completed, current balance: " << balance << " BYN" << endl;
+	cout << "Upload completed, current balance: " << balance << " BYN" << endl;
 	_getch();
 }
 
 void loading(int index) 
 {
+	system("cls");
 	for (int i = 0; i<index; i++) {
 
 		cout << "\b\b\b\b\b\b\b\b\b\bLoading" << flush;
@@ -269,6 +291,7 @@ void loading(int index)
 
 void coinMenu()
 {
+	system("cls");
 	int num = 0;
 
 	cout << "1 - 0.10 BYN" << endl;
@@ -304,12 +327,13 @@ void coinMenu()
 		break;
 	default:
 		cout << "Error! Wrong number.";
-		break;
+		userMenu();
 	}
 }
 
 double addCoin(double x)
 {
+	cash += x;
 	balance += x;
 	return balance;
 }
@@ -318,7 +342,11 @@ void orderEspresso()
 {
 	if (balance >= ESPRESSO)
 	{
+		loading(7);
+		system("cls");
 		cout << "Coffee is ready!" << endl;
+		Sleep(3500);
+
 		balance -= ESPRESSO;
 		cups--;
 		userMenu();
@@ -333,7 +361,11 @@ void orderCappuccino()
 {
 	if (balance >= CAPPUCCINO)
 	{
+		loading(7);
+		system("cls");
 		cout << "Coffee is ready!" << endl;
+		Sleep(3500);
+
 		balance -= CAPPUCCINO;
 		cups--;
 		userMenu();
@@ -348,7 +380,11 @@ void orderAmericano()
 {
 	if (balance >= AMERICANO)
 	{
+		loading(7);
+		system("cls");
 		cout << "Coffee is ready!" << endl;
+		Sleep(3500);
+
 		balance -= AMERICANO;
 		userMenu();
 		cups--;
